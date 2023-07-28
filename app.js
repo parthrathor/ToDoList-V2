@@ -63,8 +63,6 @@ app.post("/", function (req, res) {
     console.log("saved item to db");
     res.redirect("/");
   })
-
-
   // if (req.body.list === "Work") {
   //   workItems.push(item);
   //   res.redirect("/work");
@@ -72,6 +70,18 @@ app.post("/", function (req, res) {
   //   items.push(item);
   //   res.redirect("/");
   // }
+});
+
+app.post("/delete",function(req,res){
+  const deleteItem = req.body.checkbox;
+  Item.deleteOne({name:deleteItem}).then(function(){
+    console.log("deleted item :"+deleteItem);
+  }).catch(function(err){
+    console.log(err);
+  }).finally(function(){
+    res.redirect("/");
+  })
+
 });
 
 app.get("/work", function (req, res) {
