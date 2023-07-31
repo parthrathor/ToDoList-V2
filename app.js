@@ -33,13 +33,22 @@ const item3 = new Item({ name: "<-- Hit this to delete an item." });
 var items = [];
 const defaultItems = [item1, item2, item3];
 
+const listSchema = new mongoose.Schema({
+  name:String,
+  items: [itemSchema]
+});
+
+const List = new mongoose.model("List",listSchema);
+
+
 app.get("/", function (req, res) {
   
    Item.find({})
    .then(function (foundItems) {
     foundItems.forEach(element => {
       items.push(element.name);
-      console.log(element.name);});
+      // console.log(element.name);
+    });
       if (Number(items.length) === 0) {
         console.log(items.length+"in 2");
          Item.insertMany(defaultItems);
@@ -52,6 +61,26 @@ app.get("/", function (req, res) {
     });
 });
 
+
+app.get("/:customListName",function(req,res){
+
+    const customListName = req.params.customListName;
+    
+    List.findOne({name:customListName}).then(function(foundlist){
+        if(foundlist){
+          console.log("found"+foundlist.name);
+        }
+        else{
+          const list = new List ({
+            name:customListName,
+            items:defaultItems
+          });
+          list.save();
+          console.log("Addedlist"+ customListName);
+        }
+    });
+})
+
 app.post("/", function (req, res) {
 
   const itemName = req.body.newItem;
@@ -59,8 +88,8 @@ app.post("/", function (req, res) {
     name: itemName
   })
 
-  item.save().then(function () {
-    console.log("saved item to db");
+  item.save().then(function (singleItem) {
+    console.log("Saved item: " +singleItem.name);
     res.redirect("/");
   })
   // if (req.body.list === "Work") {
@@ -75,7 +104,7 @@ app.post("/", function (req, res) {
 app.post("/delete",function(req,res){
   const deleteItem = req.body.checkbox;
   Item.deleteOne({name:deleteItem}).then(function(){
-    console.log("deleted item :"+deleteItem);
+    console.log("Deleted item :"+deleteItem);
   }).catch(function(err){
     console.log(err);
   }).finally(function(){
