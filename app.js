@@ -67,16 +67,18 @@ app.get("/:customListName",function(req,res){
     const customListName = req.params.customListName;
     
     List.findOne({name:customListName}).then(function(foundlist){
-        if(foundlist){
-          console.log("found"+foundlist.name);
-        }
-        else{
+        if(!foundlist){
           const list = new List ({
             name:customListName,
             items:defaultItems
           });
           list.save();
           console.log("Addedlist"+ customListName);
+          res.redirect("/"+customListName);
+        }
+        else{
+          console.log("found"+foundlist.name);
+          res.render("list", { listTitle: foundlist.name, newListItems: foundlist.items });
         }
     });
 })
@@ -111,10 +113,6 @@ app.post("/delete",function(req,res){
     res.redirect("/");
   })
 
-});
-
-app.get("/work", function (req, res) {
-  res.render("list", { listTitle: "Work List", newListItems: workItems });
 });
 
 app.get("/about", function (req, res) {
