@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 //mongoose mongodb database connection
 const url = "mongodb://127.0.0.1:27017/todolistDB";
@@ -62,8 +63,8 @@ app.get("/", function (req, res) {
 
 
 app.get("/:customListName",function(req,res){
-    const customListName = req.params.customListName;
-    
+    const customListName = _.capitalize(req.params.customListName);
+
     List.findOne({name:customListName}).then(function(foundlist){
         if(!foundlist){
           const list = new List ({
@@ -71,7 +72,7 @@ app.get("/:customListName",function(req,res){
             items:defaultItems
           });
           list.save();
-          console.log("Addedlist "+ customListName);
+          console.log("Addedlist "+ list.name);
           res.redirect("/"+customListName);
         }
         else{
