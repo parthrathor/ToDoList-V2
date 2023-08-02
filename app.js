@@ -46,7 +46,7 @@ app.get("/", function (req, res) {
    Item.find({})
    .then(function (foundItems) {
     foundItems.forEach(element => {
-      items.push(element.name);
+      items.push(element);
       // console.log(element.name);
     });
       if (Number(items.length) === 0) {
@@ -63,7 +63,6 @@ app.get("/", function (req, res) {
 
 
 app.get("/:customListName",function(req,res){
-
     const customListName = req.params.customListName;
     
     List.findOne({name:customListName}).then(function(foundlist){
@@ -73,11 +72,11 @@ app.get("/:customListName",function(req,res){
             items:defaultItems
           });
           list.save();
-          console.log("Addedlist"+ customListName);
+          console.log("Addedlist "+ customListName);
           res.redirect("/"+customListName);
         }
         else{
-          console.log("found"+foundlist.name);
+          console.log("foundlist "+foundlist.name);
           res.render("list", { listTitle: foundlist.name, newListItems: foundlist.items });
         }
     });
@@ -86,14 +85,24 @@ app.get("/:customListName",function(req,res){
 app.post("/", function (req, res) {
 
   const itemName = req.body.newItem;
+  const listName = req.body.list;
   const item = new Item({
     name: itemName
   })
-
+  if(listName === "Today"){
   item.save().then(function (singleItem) {
     console.log("Saved item: " +singleItem.name);
     res.redirect("/");
   })
+}
+  else{
+    List.findOne({name:listName}).then(function(foundlist){
+      foundlist.items.push(item);
+      foundlist.save();
+      console.log("Saved item into "+ (foundlist.name)+"list: " +(item.name));
+      res.redirect("/"+ listName);
+    })
+  }
   // if (req.body.list === "Work") {
   //   workItems.push(item);
   //   res.redirect("/work");
@@ -104,15 +113,16 @@ app.post("/", function (req, res) {
 });
 
 app.post("/delete",function(req,res){
-  const deleteItem = req.body.checkbox;
-  Item.deleteOne({name:deleteItem}).then(function(){
-    console.log("Deleted item :"+deleteItem);
+ 
+  const itemName = (req.body.checkbox);
+  // console.log(req.body.checkbox);
+  Item.deleteOne({name:itemName}).then(function(){
+    console.log("Deleted item: "+itemName);
   }).catch(function(err){
     console.log(err);
   }).finally(function(){
     res.redirect("/");
   })
-
 });
 
 app.get("/about", function (req, res) {
