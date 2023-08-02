@@ -40,7 +40,6 @@ const listSchema = new mongoose.Schema({
 
 const List = new mongoose.model("List",listSchema);
 
-
 app.get("/", function (req, res) {
   
    Item.find({})
@@ -106,9 +105,12 @@ app.post("/", function (req, res) {
 });
 
 app.post("/delete",function(req,res){
- 
+
   const itemName = (req.body.checkbox);
-  // console.log(req.body.checkbox);
+  const listName= req.body.listName;
+  console.log(req.body.listName);
+
+  if(listName ==="Today"){
   Item.deleteOne({name:itemName}).then(function(){
     console.log("Deleted item: "+itemName);
   }).catch(function(err){
@@ -116,6 +118,13 @@ app.post("/delete",function(req,res){
   }).finally(function(){
     res.redirect("/");
   })
+  }
+  else{
+    List.findOneAndUpdate({name:listName},{$pull: {items:{name:itemName}}}).then(function(foundlist){
+      console.log("Deleted item in "+ foundlist.name +"list: "+itemName);
+      res.redirect("/"+listName)
+    })
+  }
 });
 
 app.get("/about", function (req, res) {
