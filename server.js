@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+const port = process.env.PORT || 3000;
 
 //mongoose mongodb database connection
 const url = "mongodb+srv://parthrathor:test123@cluster1.mqwqws6.mongodb.net/todolistDB"; //mongodb atlas cloud connection string
@@ -132,8 +133,8 @@ app.get("/about", function (req, res) {
   res.render("about");
 });
 
-app.listen(3000, function () {
-  console.log("Server started on port 3000");
+app.listen(port, function () {
+  console.log(`Server started on port ${port}`);
 });
 
 // mongoose.connection.close()
