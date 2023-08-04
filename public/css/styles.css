@@ -1,7 +1,7 @@
 html {
   background-color: #FFF3E0;
-  background-image: -webkit-linear-gradient(65deg, #FFB74D 50%, #FFF3E0 50%);
-  background-repeat: no-repeat;
+  /* background-image: -webkit-linear-gradient(65deg, #FFB74D 50%, #FFF3E0 50%);
+  background-repeat: no-repeat; */
   min-height: 1000px;
   font-family:Helvetica;
 }
