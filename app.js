@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 
 //mongoose mongodb database connection
-const url = "mongodb://127.0.0.1:27017/todolistDB";
+const url = "mongodb+srv://parthrathor:test123@cluster1.mqwqws6.mongodb.net/todolistDB"; //mongodb atlas cloud connection string
 mongoose.connect(url).then(function () {
-  console.log("Connected to mongoDB database");
+  console.log("Connected to mongoDB cloud database");
 })
   .catch(function (err) {
     console.log(err);
@@ -72,7 +72,7 @@ app.get("/:customListName",function(req,res){
             items:defaultItems
           });
           list.save();
-          console.log("Addedlist "+ list.name);
+          console.log("Addedlist "+ customListName);
           res.redirect("/"+customListName);
         }
         else{
