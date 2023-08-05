@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+let alert = require('alert'); 
 const port = process.env.PORT || 3000;
 
 //mongoose mongodb database connection
@@ -91,19 +92,30 @@ app.post("/", function (req, res) {
     name: itemName
   })
   if(listName === "Today"){
+    if(itemName===''){
+      alert("Empty string input");
+      res.redirect("/");
+    }
+    else{
   item.save().then(function (singleItem) {
     console.log("Saved item: " +singleItem.name);
     res.redirect("/");
-  })
+  })}
 }
   else{
+    if(itemName===''){
+      alert("Empty string input");
+      res.redirect("/"+ listName);
+    }
+    else{
     List.findOne({name:listName}).then(function(foundlist){
       foundlist.items.push(item);
       foundlist.save();
       console.log("Saved item into "+ (foundlist.name)+"list: " +(item.name));
       res.redirect("/"+ listName);
-    })
+    })}
   }
+  
 });
 
 app.post("/delete",function(req,res){

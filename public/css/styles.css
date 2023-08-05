@@ -2,8 +2,8 @@ html {
   /* background-color: #FFF3E0;
   background-image: -webkit-linear-gradient(65deg, #FFB74D 50%, #FFF3E0 50%);
   background-repeat: no-repeat; */
-  background-color: #ffd26a;
-  background-image: radial-gradient(circle at -77% 35%, #ff983156 49%, transparent 49.05%),radial-gradient(circle at 38% -99%, #ffa44837 25%, transparent 25.05%),radial-gradient(circle at -76% -26%, #ff800032 55%, transparent 55.05%),linear-gradient(-100deg, #ff80004a 28%, transparent 28.05%);
+  background-color: #fff3d5;
+  background-image: radial-gradient(circle at -77% 35%, #ff983156 49%, transparent 49.05%),radial-gradient(circle at 38% -99%, #ffa44837 25%, transparent 25.05%),radial-gradient(circle at -76% -26%, #ff800032 55%, transparent 55.05%),linear-gradient(-100deg, #ff80004a 28%, transparent 28.05%); 
   min-height:100%;
   font-family:Helvetica;
 }
