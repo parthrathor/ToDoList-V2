@@ -63,16 +63,16 @@ form.item {
 }
 
 button {
-  min-height: 50px;
-  width: 50px;
+  min-height: 40px;
+  width: 40px;
   border-radius: 50%;
   border-color: transparent;
   background-color: #FFB74D;
   color: #fff;
-  font-size: 30px;
+  font-size: 25px;
   padding-bottom: 6px;
   padding: 0px;
-  line-height: 50px;
+  line-height: 40px;
   border-width: 0;
 }
 
